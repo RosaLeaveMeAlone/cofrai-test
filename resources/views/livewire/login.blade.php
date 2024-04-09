@@ -1,3 +1,3 @@
 <div>
-    <h1>Hola mundo</h1>
+    <h1 class="text-red-500">Hola mundo!</h1>
 </div>
