@@ -6,6 +6,7 @@
         "watch": "concurrently \"npx postcss ./resources/css/app.css -o ./public/dist/css/_app.css --watch\" \"mix watch\""
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.7",
         "autoprefixer": "^10.4.19",
         "axios": "^1.6.4",
         "concurrently": "^8.2.2",
