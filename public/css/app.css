@@ -699,6 +699,9 @@ select {
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
 }
+.fixed {
+  position: fixed;
+}
 .absolute {
   position: absolute;
 }
@@ -800,9 +803,6 @@ select {
 .w-full {
   width: 100%;
 }
-.w-32 {
-  width: 8rem;
-}
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -883,8 +883,18 @@ select {
 .rounded-sm {
   border-radius: 0.125rem;
 }
+.rounded {
+  border-radius: 0.25rem;
+}
 .border-0 {
   border-width: 0px;
+}
+.border {
+  border-width: 1px;
+}
+.border-red-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
 }
 .bg-\[\#FF2D20\]\/10 {
   background-color: rgb(255 45 32 / 0.1);
@@ -965,6 +975,10 @@ select {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 .pt-3 {
   padding-top: 0.75rem;
 }
@@ -1034,10 +1048,6 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.text-red-900 {
-  --tw-text-opacity: 1;
-  color: rgb(127 29 29 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;
@@ -1147,6 +1157,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
 }
+.hover\:bg-red-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
@@ -1157,6 +1171,10 @@ select {
 .hover\:text-indigo-500:hover {
   --tw-text-opacity: 1;
   color: rgb(99 102 241 / var(--tw-text-opacity));
+}
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 .hover\:ring-black\/20:hover {
   --tw-ring-color: rgb(0 0 0 / 0.2);
