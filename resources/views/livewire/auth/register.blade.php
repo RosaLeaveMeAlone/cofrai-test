@@ -8,7 +8,7 @@ Registro
 @endsection
 
 @section('subhead')
-<title>Registro | Cofrai Test</title>
+    <title>Registro | Cofrai Test</title>
 @endsection
     
 <div>

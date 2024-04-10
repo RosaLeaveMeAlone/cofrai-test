@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AuthenticatedMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 use App\Livewire\Auth\Login;
@@ -18,4 +19,5 @@ Route::prefix('admin')->name('admin.')->middleware(AuthenticatedMiddleware::clas
 
 Route::prefix('admin')->name('admin.')->middleware(AuthMiddleware::class)->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });

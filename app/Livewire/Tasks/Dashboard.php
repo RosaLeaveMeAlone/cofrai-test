@@ -11,11 +11,6 @@ class Dashboard extends Component
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
     // -----------------------------------------------------------------------------------------------------------------
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('admin.login');
-    }
 
     public function render()
     {
