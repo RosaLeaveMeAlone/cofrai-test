@@ -47,11 +47,11 @@ class TaskGroup extends Model
         $query = static::query();
 
         if ($search) {
-            // $query->where(
-            //     fn ($query) => $query
-            //         ->where('products.name', 'ILIKE', "%$search%")
-            //         ->orWhere('products.description', 'ILIKE', "%$search%")
-            // );
+            $query->where(
+                fn ($query) => $query
+                    ->where('task_groups.name', 'ILIKE', "%$search%")
+                    ->orWhere('task_groups.description', 'ILIKE', "%$search%")
+            );
         }
 
         if($userId) {

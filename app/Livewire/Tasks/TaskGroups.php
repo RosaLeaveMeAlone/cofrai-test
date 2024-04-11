@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Tasks;
 
+use App\Http\Traits\WithTable;
 use App\Models\TaskGroup;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class TaskGroups extends Component
 {
-    use WithPagination;
+    use WithTable;
+
     // -----------------------------------------------------------------------------------------------------------------
     // @ Rules
     // -----------------------------------------------------------------------------------------------------------------
@@ -26,14 +29,8 @@ class TaskGroups extends Component
     // -----------------------------------------------------------------------------------------------------------------
     public function getTaskGroupsQueryProperty()
     {
-        // dd(TaskGroup::filter(
-        //     '',
-        //     'id',
-        //     'ASC',
-        //     auth()->id(),
-        // )->get());
         return TaskGroup::filter(
-            '',
+            $this->search,
             'id',
             'ASC',
             auth()->id(),
@@ -60,7 +57,6 @@ class TaskGroups extends Component
     
     public function render()
     {
-        // dd($this->task_groups->links());
         return view('livewire.tasks.task-groups');
     }
 }
