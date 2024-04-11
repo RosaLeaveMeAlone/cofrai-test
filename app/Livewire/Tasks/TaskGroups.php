@@ -26,6 +26,12 @@ class TaskGroups extends Component
     // -----------------------------------------------------------------------------------------------------------------
     public function getTaskGroupsQueryProperty()
     {
+        // dd(TaskGroup::filter(
+        //     '',
+        //     'id',
+        //     'ASC',
+        //     auth()->id(),
+        // )->get());
         return TaskGroup::filter(
             '',
             'id',
@@ -38,7 +44,7 @@ class TaskGroups extends Component
     {
         $taskGroupsQuery = clone $this->task_groups_query;
 
-        return $taskGroupsQuery->paginate(25);
+        return $taskGroupsQuery->paginate(2);
     }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
@@ -54,6 +60,7 @@ class TaskGroups extends Component
     
     public function render()
     {
+        // dd($this->task_groups->links());
         return view('livewire.tasks.task-groups');
     }
 }

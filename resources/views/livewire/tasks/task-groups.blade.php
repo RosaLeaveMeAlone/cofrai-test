@@ -57,6 +57,6 @@
             </table>
         </div>
 
-
+        {{ $this->task_groups->links() }}
 
 </div>
