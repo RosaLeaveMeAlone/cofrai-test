@@ -6,6 +6,7 @@ use Livewire\WithPagination;
 
 trait WithTable
 {
-    use WithSearch;
     use WithPagination;
+    use WithSearch;
+    use WithSorting;
 }

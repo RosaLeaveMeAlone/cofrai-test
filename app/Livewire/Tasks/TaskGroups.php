@@ -31,8 +31,8 @@ class TaskGroups extends Component
     {
         return TaskGroup::filter(
             $this->search,
-            'id',
-            'ASC',
+            $this->sortByAttribute,
+            $this->sortDirection,
             auth()->id(),
         );
     }

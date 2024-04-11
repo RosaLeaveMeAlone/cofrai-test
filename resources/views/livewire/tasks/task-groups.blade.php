@@ -20,26 +20,25 @@
             <table class="table-auto w-full mt-2">
                 <thead>
                     <tr>
-                        <th class="px-4 py-2">
+                        <x-table.th wire:click="sortBy('id')">ID</x-th>
+                        <x-table.th wire:click="sortBy('name')">Name</x-th>
+                        <x-table.th wire:click="sortBy('description')">Description</x-th>
+                                    
+                        {{-- <th class="px-4 py-2">
                             <div class="flex items-center">
-                                ID
+                                <button wire:click="sortBy('name')">Name</button>
                             </div>
                         </th>
                         <th class="px-4 py-2">
                             <div class="flex items-center">
-                                Name
+                                <button wire:click="sortBy('description')">Description</button>
                             </div>
-                        </th>
-                        <th class="px-4 py-2">
-                            <div class="flex items-center">
-                                Description
-                            </div>
-                        </th>
+                        </th>--}}
                         <th class="px-4 py-2">
                             <div class="flex items-center">
                                 Actions
                             </div>
-                        </th>
+                        </th> 
                     </tr>
                 </thead>
                 <tbody>
