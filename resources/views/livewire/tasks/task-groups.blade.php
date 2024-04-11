@@ -24,16 +24,6 @@
                         <x-table.th wire:click="sortBy('name')">Name</x-th>
                         <x-table.th wire:click="sortBy('description')">Description</x-th>
                                     
-                        {{-- <th class="px-4 py-2">
-                            <div class="flex items-center">
-                                <button wire:click="sortBy('name')">Name</button>
-                            </div>
-                        </th>
-                        <th class="px-4 py-2">
-                            <div class="flex items-center">
-                                <button wire:click="sortBy('description')">Description</button>
-                            </div>
-                        </th>--}}
                         <th class="px-4 py-2">
                             <div class="flex items-center">
                                 Actions
@@ -54,7 +44,12 @@
                                 {{ $taskGroup->description }}
                             </td>
                             <td class="border px-4 py-2">
-                                {{ $taskGroup->id }}
+                                <button 
+                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                wire:click="$dispatch('openModal', { component: 'modals.task-group.delete-task-group', arguments: { id: {{ $taskGroup->id }} }})"
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     @empty
@@ -66,8 +61,12 @@
                     @endforelse
                 </tbody>
             </table>
+            
         </div>
 
         {{ $this->task_groups->links() }}
+
+        
+
 
 </div>

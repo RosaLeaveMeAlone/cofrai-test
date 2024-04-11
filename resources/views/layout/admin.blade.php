@@ -6,11 +6,11 @@
     <title>@yield('head', 'Administrador')</title>
     <!-- Incluir Tailwind CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
     <!-- Navbar -->
@@ -53,5 +53,6 @@
             {{ $slot }}
         </div>
     </div>
+    @livewire('wire-elements-modal')
 </body>
 </html>
