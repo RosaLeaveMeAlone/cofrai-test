@@ -6,6 +6,7 @@ use App\Http\Middleware\AuthMiddleware;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Tasks\Dashboard;
+use App\Livewire\Tasks\TaskGroups;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,5 +20,6 @@ Route::prefix('admin')->name('admin.')->middleware(AuthenticatedMiddleware::clas
 
 Route::prefix('admin')->name('admin.')->middleware(AuthMiddleware::class)->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
+    Route::get('/task-groups', TaskGroups::class)->name('task-groups');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });

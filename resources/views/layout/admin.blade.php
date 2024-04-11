@@ -42,7 +42,10 @@
         <!-- Admin Menu -->
         <div class="bg-gray-200 p-4 w-1/6">
             <!-- Aquí colocarás el contenido del menú del admin -->
-            <p class="text-gray-700">Menú de Administrador</p>
+            <div class="flex flex-col">
+                <a href="{{ route('admin.dashboard') }}" class="text-gray-700">Dashboard</a>
+                <a href="{{ route('admin.task-groups') }}" class="text-gray-700">Task Groups</a>
+            </div>
         </div>
         <!-- Main Content -->
         <div class="flex-1 p-4">
