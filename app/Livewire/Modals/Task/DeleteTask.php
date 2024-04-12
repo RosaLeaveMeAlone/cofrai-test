@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Livewire\Tasks;
+namespace App\Livewire\Modals\Task;
 
-use App\Http\Traits\WithTable;
-use App\Models\TaskGroup;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Livewire\Component;
+use LivewireUI\Modal\ModalComponent;
 
-class TaskGroups extends Component
+class DeleteTask extends ModalComponent
 {
-    use WithTable;
-
+    // -----------------------------------------------------------------------------------------------------------------
+    // @ Static Functions
+    // -----------------------------------------------------------------------------------------------------------------
+    /**
+     * Supported: 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'
+     */
+    public static function modalMaxWidth(): string
+    {
+        return 'sm';
+    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Rules
     // -----------------------------------------------------------------------------------------------------------------
@@ -18,12 +23,7 @@ class TaskGroups extends Component
     // -----------------------------------------------------------------------------------------------------------------
     // @ Listeners
     // -----------------------------------------------------------------------------------------------------------------
-    protected $listeners = ['refreshPage' => 'refreshPage'];
 
-    public function refreshPage()
-    {
-        $this->resetPage();
-    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Lifecycle Hooks
     // -----------------------------------------------------------------------------------------------------------------
@@ -31,26 +31,11 @@ class TaskGroups extends Component
     // -----------------------------------------------------------------------------------------------------------------
     // @ Computed Properties
     // -----------------------------------------------------------------------------------------------------------------
-    public function getTaskGroupsQueryProperty()
-    {
-        return TaskGroup::filter(
-            $this->search,
-            $this->sortByAttribute,
-            $this->sortDirection,
-            auth()->id(),
-        );
-    }
 
-    public function getTaskGroupsProperty()
-    {
-        $taskGroupsQuery = clone $this->task_groups_query;
-
-        return $taskGroupsQuery->paginate(2);
-    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     // @ Private Functions
     // -----------------------------------------------------------------------------------------------------------------
@@ -61,6 +46,6 @@ class TaskGroups extends Component
     
     public function render()
     {
-        return view('livewire.tasks.task-groups');
+        return view('livewire.modals.task.delete-task');
     }
 }

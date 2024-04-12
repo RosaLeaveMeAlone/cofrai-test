@@ -45,6 +45,7 @@
             <div class="flex flex-col">
                 <a href="{{ route('admin.dashboard') }}" class="text-gray-700">Dashboard</a>
                 <a href="{{ route('admin.task-groups') }}" class="text-gray-700">Task Groups</a>
+                <a href="{{ route('admin.tasks') }}" class="text-gray-700">Tasks</a>
             </div>
         </div>
         <!-- Main Content -->

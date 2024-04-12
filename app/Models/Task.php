@@ -6,28 +6,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TaskGroup extends Model
+class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
+        'frequency',
+        'repetitions',
+        'start_date',
+        'end_date',
+        'task_group_id',
         'user_id',
     ];
 
     // -----------------------------------------------------------------------------------------------------------------
     // @ Relations
     // -----------------------------------------------------------------------------------------------------------------
-    public function user()
+    public function taskGroup()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(TaskGroup::class);
     }
-
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
+    
     // -----------------------------------------------------------------------------------------------------------------
     // @ Accessors & Mutators
     // -----------------------------------------------------------------------------------------------------------------
@@ -54,8 +55,10 @@ class TaskGroup extends Model
         if ($search) {
             $query->where(
                 fn ($query) => $query
-                    ->where('task_groups.name', 'ILIKE', "%$search%")
-                    ->orWhere('task_groups.description', 'ILIKE', "%$search%")
+                    ->where('tasks.title', 'ILIKE', "%$search%")
+                    ->orWhere('tasks.description', 'ILIKE', "%$search%")
+                    // ->orWhere('tasks.description', 'ILIKE', "%$search%")
+                    ->orWhere('tasks.frequency', 'ILIKE', "%$search%")
             );
         }
 

@@ -3,14 +3,12 @@
 namespace App\Livewire\Tasks;
 
 use App\Http\Traits\WithTable;
-use App\Models\TaskGroup;
-use Barryvdh\Debugbar\Facades\Debugbar;
+use App\Models\Task;
 use Livewire\Component;
 
-class TaskGroups extends Component
+class Tasks extends Component
 {
     use WithTable;
-
     // -----------------------------------------------------------------------------------------------------------------
     // @ Rules
     // -----------------------------------------------------------------------------------------------------------------
@@ -31,9 +29,9 @@ class TaskGroups extends Component
     // -----------------------------------------------------------------------------------------------------------------
     // @ Computed Properties
     // -----------------------------------------------------------------------------------------------------------------
-    public function getTaskGroupsQueryProperty()
+    public function getTasksQueryProperty()
     {
-        return TaskGroup::filter(
+        return Task::filter(
             $this->search,
             $this->sortByAttribute,
             $this->sortDirection,
@@ -41,16 +39,16 @@ class TaskGroups extends Component
         );
     }
 
-    public function getTaskGroupsProperty()
+    public function getTasksProperty()
     {
-        $taskGroupsQuery = clone $this->task_groups_query;
+        $tasksQuery = clone $this->tasks_query;
 
-        return $taskGroupsQuery->paginate(2);
+        return $tasksQuery->paginate(2);
     }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     // @ Private Functions
     // -----------------------------------------------------------------------------------------------------------------
@@ -61,6 +59,6 @@ class TaskGroups extends Component
     
     public function render()
     {
-        return view('livewire.tasks.task-groups');
+        return view('livewire.tasks.tasks');
     }
 }
