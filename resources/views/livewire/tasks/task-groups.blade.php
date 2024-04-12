@@ -1,7 +1,13 @@
 <div>
-   
-        <div class="mt-8 text-2xl">
-            Task Groups
+
+        <div class="flex justify-between items-center mt-8 text-2xl">
+            <div class="text-left">Task Groups</div>
+            <button 
+                class="focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"
+                wire:click="$dispatch('openModal', { component: 'modals.task-group.task-group-form'})"
+            >
+                New Task Group
+            </button>
         </div>
 
         
@@ -45,8 +51,14 @@
                             </td>
                             <td class="border px-4 py-2">
                                 <button 
-                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                wire:click="$dispatch('openModal', { component: 'modals.task-group.delete-task-group', arguments: { id: {{ $taskGroup->id }} }})"
+                                    class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+                                    wire:click="$dispatch('openModal', { component: 'modals.task-group.task-group-form', arguments: { id: {{ $taskGroup->id }} }})"
+                                >
+                                    Editar
+                                </button>
+                                <button 
+                                    class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                    wire:click="$dispatch('openModal', { component: 'modals.task-group.delete-task-group', arguments: { id: {{ $taskGroup->id }} }})"
                                 >
                                     Delete
                                 </button>

@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Modals\TaskGroup;
 
+use App\Models\TaskGroup;
 use LivewireUI\Modal\ModalComponent;
 
-class EditUser extends ModalComponent
+class TaskGroupForm extends ModalComponent
 {
-    public $id = 'NO HAY';
-    
+
+    public $id;
+    public $name;
+    public $description;
+
+
     // -----------------------------------------------------------------------------------------------------------------
     // @ Static Functions
     // -----------------------------------------------------------------------------------------------------------------
@@ -16,12 +21,16 @@ class EditUser extends ModalComponent
      */
     public static function modalMaxWidth(): string
     {
-        return 'sm';
+        return 'md';
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     // @ Rules
     // -----------------------------------------------------------------------------------------------------------------
+    protected $rules = [
+        'name' => 'required|unique:task_groups|min:3|max:255',
+        'description' => 'nullable',
+    ];
 
     // -----------------------------------------------------------------------------------------------------------------
     // @ Listeners
@@ -30,7 +39,12 @@ class EditUser extends ModalComponent
     // -----------------------------------------------------------------------------------------------------------------
     // @ Lifecycle Hooks
     // -----------------------------------------------------------------------------------------------------------------
-
+    public function mount()
+    {
+        $taskGroup = TaskGroup::find($this->id);
+        $this->name = $taskGroup->name ?? '';
+        $this->description = $taskGroup->description ?? '';
+    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Computed Properties
     // -----------------------------------------------------------------------------------------------------------------
@@ -38,7 +52,23 @@ class EditUser extends ModalComponent
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
     // -----------------------------------------------------------------------------------------------------------------
+    public function saveTaskGroup()
+    {
+        $this->validate();
 
+        $taskGroup = TaskGroup::updateOrCreate([
+            'id' => $this->id
+        ], [
+            'name' => $this->name,
+            'description' => $this->description,
+            'user_id' => auth()->id(),
+        ]);
+
+        $this->dispatch('refreshPage');
+        $this->closeModal();
+
+
+    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Private Functions
     // -----------------------------------------------------------------------------------------------------------------
@@ -49,6 +79,6 @@ class EditUser extends ModalComponent
     
     public function render()
     {
-        return view('livewire.edit-user');
+        return view('livewire.modals.task-group.task-group-form');
     }
 }

@@ -1,4 +1,4 @@
-<x-confirmation-modal>
+<x-modal>
     <x-slot name="title">
         Delete Task Group
     </x-slot>
