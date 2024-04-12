@@ -2,12 +2,23 @@
 
 namespace App\Livewire\Modals\Task;
 
+use App\Models\Task;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use LivewireUI\Modal\ModalComponent;
 
 class TaskForm extends ModalComponent
 {
+    //TODO: FALTA PODER AGRUPAR
     public $id;
-    public $repetitionOption = '';
+    public $title;
+    public $description;
+    public $repetitionOption = 'iterations'; // [iterations, dates]
+    public $frequencyOption = 'daily'; // [daily, weekly, monthly]
+    public $selectedDays = [];
+    public $selectedMonthDay = 1;
+    public $iterations = 1;
+    public $startDate;
+    public $endDate;
     // -----------------------------------------------------------------------------------------------------------------
     // @ Static Functions
     // -----------------------------------------------------------------------------------------------------------------
@@ -22,7 +33,18 @@ class TaskForm extends ModalComponent
     // -----------------------------------------------------------------------------------------------------------------
     // @ Rules
     // -----------------------------------------------------------------------------------------------------------------
-
+    protected $rules = [
+        'title' => 'required',
+        'description' => 'nullable',
+        'frequencyOption' => 'required|in:daily,weekly,monthly',
+        'selectedDays' => 'required_if:frequencyOption,weekly|array',
+        // 'selectedDays.*' => 'required_if:frequencyOption,weekly',
+        'selectedMonthDay' => 'required_if:frequencyOption,monthly|integer|min:1|max:31',
+        'repetitionOption' => 'required|in:iterations,dates',
+        'iterations' => 'required_if:repetitionOption,iterations|integer|min:1',
+        'startDate' => 'required_with:endDate|date|after_or_equal:today',
+        'endDate' => 'required_with:startDate|date|after:startDate',
+    ];
     // -----------------------------------------------------------------------------------------------------------------
     // @ Listeners
     // -----------------------------------------------------------------------------------------------------------------
@@ -30,7 +52,36 @@ class TaskForm extends ModalComponent
     // -----------------------------------------------------------------------------------------------------------------
     // @ Lifecycle Hooks
     // -----------------------------------------------------------------------------------------------------------------
+    public function mount()
+    {
+        $taskGroup = Task::find($this->id);
+        if(!$taskGroup) {
+            return;
+        }
+        $cronParts = explode(' ', $taskGroup->frequency);
 
+        $this->frequencyOption = 'daily';
+        $this->selectedDays = [];
+        $this->selectedMonthDay = 1;
+    
+        if ($cronParts[2] != '*') {
+            $this->frequencyOption = 'monthly';
+            $this->selectedMonthDay = (int)$cronParts[2];
+        } elseif ($cronParts[4] != '*') {
+            $this->frequencyOption = 'weekly';
+            $this->selectedDays = array_map('intval', explode(',', $cronParts[4]));
+        }
+
+        $this->title = $taskGroup->title ?? '';
+        $this->description = $taskGroup->description ?? '';
+        $this->iterations = $taskGroup->repetitions ?? 1;
+        $this->startDate = $taskGroup->start_date ?? null;
+        $this->endDate = $taskGroup->end_date ?? null;
+
+        if($this->startDate && $this->endDate) {
+            $this->repetitionOption = 'dates';
+        }
+    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Computed Properties
     // -----------------------------------------------------------------------------------------------------------------
@@ -38,7 +89,67 @@ class TaskForm extends ModalComponent
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
     // -----------------------------------------------------------------------------------------------------------------
+    public function validateData()
+    {
+        $rules = $this->rules;
 
+        if ($this->repetitionOption === 'dates') {
+            $rules['startDate'] = 'required|date|after_or_equal:today';
+            $rules['endDate'] = 'required|date|after:startDate';
+        } else {
+            unset($rules['startDate'], $rules['endDate']);
+        }
+
+        return $this->validate($rules);
+    }
+    
+    public function saveTask() 
+    {
+        $this->validateData();
+
+        $cronString = '';
+        switch ($this->frequencyOption) {
+            case 'daily':
+                $cronString = '0 0 * * *';
+                break;
+            case 'weekly':
+                $daysOfWeek = implode(',', $this->selectedDays);
+                $cronString = "0 0 * * $daysOfWeek"; 
+                break;
+            case 'monthly':
+                $cronString =  "0 0 $this->selectedMonthDay * *"; 
+                break;
+            default:
+                $cronString = '0 0 * * *';
+                break;
+        }
+
+
+        if($this->repetitionOption == 'dates') {
+            $this->iterations = null;
+        }
+
+        if($this->repetitionOption == 'iterations') {
+            $this->startDate = null;
+            $this->endDate = null;
+        }
+
+
+        $task = Task::updateOrCreate([
+            'id' => $this->id
+        ], [
+            'title' => $this->title,
+            'description' => $this->description,
+            'frequency' => $cronString,
+            'repetitions' => $this->iterations,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
+            'user_id' => auth()->id(),
+        ]);
+
+        $this->dispatch('refreshPage');
+        $this->closeModal();
+    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Private Functions
     // -----------------------------------------------------------------------------------------------------------------
