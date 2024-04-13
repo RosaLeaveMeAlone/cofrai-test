@@ -49,7 +49,7 @@
             </div>
         </div>
         <!-- Main Content -->
-        <div class="flex-1 p-4">
+        <div class="flex-1 p-4 overflow-x-auto">
             <!-- Aquí colocarás el contenido principal de tu aplicación -->
             {{ $slot }}
         </div>
