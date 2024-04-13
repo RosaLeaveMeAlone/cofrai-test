@@ -2,9 +2,46 @@
 
 namespace App\Http\Services;
 
+use Cron\CronExpression;
+use Carbon\Carbon;
+
 
 class DateService
 {
+
+    public static function getDatesFromDateRange($cronString, $startDate, $endDate)
+    {
+        $cron = new CronExpression($cronString);
+        $startDate = Carbon::parse($startDate);
+        $endDate = Carbon::parse($endDate);
+        $dates = [];
+        
+        $nextRunDate = $startDate;
+        while ($nextRunDate->lte($endDate)){
+            $nextRunDate = $cron->getNextRunDate($nextRunDate, 0, true);
+            $nextRunDateCarbon = Carbon::parse($nextRunDate->format('Y-m-d'));
+            if ($nextRunDateCarbon->lte($endDate)) {
+                $dates[] = $nextRunDate->format('Y-m-d');
+            }
+            $nextRunDate = $nextRunDateCarbon->addDay();
+        }
+        return $dates;
+    }
+
+    public static function getDatesFromIteration($cronString, $iterations)
+    {
+        $cron = new CronExpression($cronString);
+        $nextRunDate = Carbon::now();
+        $dates = [];
+        
+        for ($i = 0; $i < 3; $i++) {
+            $nextRunDate = $cron->getNextRunDate($nextRunDate, 0, true);
+            $nextRunDateCarbon = Carbon::parse($nextRunDate->format('Y-m-d'));
+            $dates[] = $nextRunDate->format('Y-m-d');
+            $nextRunDate = $nextRunDateCarbon->addDay();
+        }
+        return $dates;
+    }
 
     public static function translateCron($cronString)
     {

@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Services\DateService;
+use App\Observers\TaskObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
     use HasFactory, SoftDeletes;
@@ -28,6 +32,11 @@ class Task extends Model
     {
         return $this->belongsTo(TaskGroup::class);
     }
+
+    public function generatedTasks()
+    {
+        return $this->hasMany(GeneratedTask::class);
+    }
     
     // -----------------------------------------------------------------------------------------------------------------
     // @ Accessors & Mutators
@@ -36,7 +45,19 @@ class Task extends Model
     // -----------------------------------------------------------------------------------------------------------------
     // @ Public Functions
     // -----------------------------------------------------------------------------------------------------------------
-
+    public function createGeneratedTasks()
+    {
+        if ($this->repetitions) {
+            $dates = DateService::getDatesFromIteration($this->frequency, $this->repetitions);
+        } else {
+            $dates = DateService::getDatesFromDateRange($this->frequency, $this->start_date, $this->end_date);
+        }
+        foreach ($dates as $date) {
+            $this->generatedTasks()->create([
+                'date' => $date,
+            ]);
+        }
+    }
     // -----------------------------------------------------------------------------------------------------------------
     // @ Private Functions
     // -----------------------------------------------------------------------------------------------------------------
