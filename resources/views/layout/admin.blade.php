@@ -12,7 +12,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body class="bg-gray-100 min-h-screen max-w-screen flex flex-col">
     <!-- Navbar -->
     <nav class="bg-gray-800 text-white p-4 flex justify-between items-center">
         <!-- Logo -->

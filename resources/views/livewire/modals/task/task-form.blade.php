@@ -7,6 +7,7 @@
         <div x-data="{
             title: @entangle('title'),
             description: @entangle('description'),
+            taskGroupId: @entangle('taskGroupId'),
             frequencyOption: @entangle('frequencyOption'),
             selectedDays: @entangle('selectedDays'),
             selectedMonthDay: @entangle('selectedMonthDay'),
@@ -26,6 +27,25 @@
                 <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
                 <textarea x-model="description" class="mt-1 p-2 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm" id="description" name="description" rows="3"></textarea>
                 @error('description')
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>Task Group:</label>
+                <div class="mt-2">
+                    <select 
+                        x-model="taskGroupId"
+                        class="mt-1 p-2 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm"
+                    >  
+                        <option value='null' selected>No Task Group</option>
+                        @foreach ($this->taskGroups as $taskGroup)
+                            <option value="{{$taskGroup->id}}">
+                                {{ $taskGroup->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('taskGroupId')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
             </div>

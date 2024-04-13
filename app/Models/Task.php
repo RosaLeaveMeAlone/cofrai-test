@@ -52,18 +52,23 @@ class Task extends Model
     ) {
         $query = static::query();
 
+        $query->select('tasks.*', 'task_groups.name as task_group_name');
+
         if ($search) {
             $query->where(
                 fn ($query) => $query
                     ->where('tasks.title', 'ILIKE', "%$search%")
                     ->orWhere('tasks.description', 'ILIKE', "%$search%")
-                    // ->orWhere('tasks.description', 'ILIKE', "%$search%")
-                    ->orWhere('tasks.frequency', 'ILIKE', "%$search%")
+                    ->orWhere('tasks.repetitions', 'ILIKE', "%$search%")
+                    ->orWhere('tasks.start_date', 'ILIKE', "%$search%")
+                    ->orWhere('tasks.end_date', 'ILIKE', "%$search%")
             );
         }
 
+        $query->leftJoin('task_groups', 'tasks.task_group_id', '=', 'task_groups.id');
+
         if($userId) {
-            $query->where('user_id', $userId);
+            $query->where('tasks.user_id', $userId);
         }
 
         // sorting

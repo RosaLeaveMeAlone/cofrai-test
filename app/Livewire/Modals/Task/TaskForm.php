@@ -8,7 +8,6 @@ use LivewireUI\Modal\ModalComponent;
 
 class TaskForm extends ModalComponent
 {
-    //TODO: FALTA PODER AGRUPAR
     public $id;
     public $title;
     public $description;
@@ -19,6 +18,8 @@ class TaskForm extends ModalComponent
     public $iterations = 1;
     public $startDate;
     public $endDate;
+    public $taskGroupId;
+    public $taskGroups;
     // -----------------------------------------------------------------------------------------------------------------
     // @ Static Functions
     // -----------------------------------------------------------------------------------------------------------------
@@ -54,11 +55,12 @@ class TaskForm extends ModalComponent
     // -----------------------------------------------------------------------------------------------------------------
     public function mount()
     {
-        $taskGroup = Task::find($this->id);
-        if(!$taskGroup) {
+        $task = Task::find($this->id);
+        $this->taskGroups = auth()->user()->taskGroups()->get();
+        if(!$task) {
             return;
         }
-        $cronParts = explode(' ', $taskGroup->frequency);
+        $cronParts = explode(' ', $task->frequency);
 
         $this->frequencyOption = 'daily';
         $this->selectedDays = [];
@@ -72,11 +74,11 @@ class TaskForm extends ModalComponent
             $this->selectedDays = array_map('intval', explode(',', $cronParts[4]));
         }
 
-        $this->title = $taskGroup->title ?? '';
-        $this->description = $taskGroup->description ?? '';
-        $this->iterations = $taskGroup->repetitions ?? 1;
-        $this->startDate = $taskGroup->start_date ?? null;
-        $this->endDate = $taskGroup->end_date ?? null;
+        $this->title = $task->title ?? '';
+        $this->description = $task->description ?? '';
+        $this->iterations = $task->repetitions ?? 1;
+        $this->startDate = $task->start_date ?? null;
+        $this->endDate = $task->end_date ?? null;
 
         if($this->startDate && $this->endDate) {
             $this->repetitionOption = 'dates';
@@ -144,6 +146,7 @@ class TaskForm extends ModalComponent
             'repetitions' => $this->iterations,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
+            'task_group_id' => $this->taskGroupId == 'null' ? null : $this->taskGroupId,
             'user_id' => auth()->id(),
         ]);
 

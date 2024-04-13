@@ -23,56 +23,82 @@
                 />
             </div>
         </div>
-        <table class="table-auto w-full mt-2">
-            <thead>
-                <tr>
-                    <x-table.th wire:click="sortBy('id')">ID</x-th>
-                    <x-table.th wire:click="sortBy('title')">Title</x-th>
-                    <x-table.th wire:click="sortBy('description')">Description</x-th>
-                                
-                    <th class="px-4 py-2">
-                        <div class="flex items-center">
-                            Actions
-                        </div>
-                    </th> 
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($this->tasks as $task)
+        <div class="mt-2 overflow-x-auto">
+            <table class="w-full">
+                <thead>
                     <tr>
-                        <td class="border px-4 py-2">
-                            {{ $task->id }}
-                        </td>
-                        <td class="border px-4 py-2">
-                            {{ $task->title }}
-                        </td>
-                        <td class="border px-4 py-2">
-                            {{ $task->description }}
-                        </td>
-                        <td class="border px-4 py-2">
-                            <button 
-                                class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
-                                wire:click="$dispatch('openModal', { component: 'modals.task.task-form', arguments: { id: {{ $task->id }} }})"
-                            >
-                                Editar
-                            </button>
-                            <button 
-                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                wire:click="$dispatch('openModal', { component: 'modals.task.delete-task', arguments: { id: {{ $task->id }} }})"
-                            >
-                                Delete
-                            </button>
-                        </td>
+                        <x-table.th wire:click="sortBy('id')" class="w-1/6">ID</x-th>
+                        <x-table.th wire:click="sortBy('title')" class="w-1/6">Title</x-th>
+                        <x-table.th wire:click="sortBy('description')" class="w-1/6">Description</x-th>
+                        <th class="w-1/6">
+                            <div class="flex flex-row items-center">
+                                Frequency
+                            </div>
+                        </th>
+                        <x-table.th wire:click="sortBy('task_group_name')" class="">Group</x-th>
+                        <x-table.th wire:click="sortBy('repetitions')" class="">Repetitions</x-th>
+                        <x-table.th wire:click="sortBy('start_date')" class="">Start Date</x-th>
+                        <x-table.th wire:click="sortBy('end_date')" class="">End Date</x-th>
+                                    
+                        <th class="px-4 py-2 ">
+                            <div class="flex items-center">
+                                Actions
+                            </div>
+                        </th> 
                     </tr>
-                @empty
-                    <tr>
-                        <td class="border px-4 py-2 text-center" colspan="4">
-                            No tasks found
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse($this->tasks as $task)
+                        <tr>
+                            <td class="border px-4 py-2">
+                                {{ $task->id }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $task->title }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $task->description }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $this->translateCron($task->frequency) }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $task->task_group_name }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $task->repetitions ?? '-' }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $task->start_date ?? '-' }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $task->end_date ?? '-'}}
+                            </td>
+                            <td class="border px-4 py-2">
+                                <button 
+                                    class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+                                    wire:click="$dispatch('openModal', { component: 'modals.task.task-form', arguments: { id: {{ $task->id }} }})"
+                                >
+                                    Editar
+                                </button>
+                                <button 
+                                    class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                    wire:click="$dispatch('openModal', { component: 'modals.task.delete-task', arguments: { id: {{ $task->id }} }})"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="border px-4 py-2 text-center" colspan="4">
+                                No tasks found
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
         
     </div>
 
