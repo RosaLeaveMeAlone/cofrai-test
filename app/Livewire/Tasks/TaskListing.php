@@ -29,7 +29,7 @@ class TaskListing extends Component
     public function mount()
     {
         $today = Carbon::today();
-        $nextMonday = $today->copy()->dayOfWeek === Carbon::SUNDAY ? $today->copy()->addDay() : Carbon::now()->startOfWeek()->addWeek();
+        $nextMonday = $today->copy()->dayOfWeek === Carbon::SUNDAY ? $today->copy()->addDays(2) : Carbon::now()->startOfWeek()->addWeek();
         $nextSunday = Carbon::now()->endOfWeek()->addWeek();
         $dayOfWeek = $today->dayOfWeek;
 
@@ -47,8 +47,6 @@ class TaskListing extends Component
             $thisSunday = null;
         }
 
-
-
         $this->todayTasks = Task::where('user_id', auth()->id())
             ->with(['generatedTasks' => function ($query) use ($today) {
                 $query->whereDate('date', $today)->orderBy('date', 'asc');
@@ -61,14 +59,16 @@ class TaskListing extends Component
             ->get();
 
         $tomorrowGeneratedTasks = [];
+        // dd($today->addDay());
+        $tomorrow = $today->addDay();
         $tomorrowTasks = Task::where('user_id', auth()->id())
-            ->with(['generatedTasks' => function ($query) use ($today) {
-                $query->whereDate('date', $today->addDay())->orderBy('date', 'asc');
+            ->with(['generatedTasks' => function ($query) use ($tomorrow) {
+                $query->whereDate('date', $tomorrow)->orderBy('date', 'asc');
             },
             'taskGroup'
             ])
-            ->whereHas('generatedTasks', function ($query) use ($today) {
-                $query->whereDate('date', $today->addDay());
+            ->whereHas('generatedTasks', function ($query) use ($tomorrow) {
+                $query->whereDate('date', $tomorrow);
             })
             ->get();
 

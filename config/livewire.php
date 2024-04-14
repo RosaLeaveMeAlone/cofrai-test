@@ -115,6 +115,8 @@ return [
 
     'inject_assets' => true,
 
+    // 'asset_url' => 'http://localhost',
+
     /*
     |---------------------------------------------------------------------------
     | Navigate (SPA mode)

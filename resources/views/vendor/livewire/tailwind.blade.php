@@ -12,8 +12,8 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
 
 <div>
     @if ($paginator->hasPages())
-        <nav role="navigation" aria-label="Pagination Navigation" class="flex justify-between">
-            <div class="flex justify-between flex-1 md:hidden">
+        <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-between">
+            <div class="flex justify-between flex-1 sm:hidden">
                 <span>
                     @if ($paginator->onFirstPage())
                         <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md select-none">
@@ -52,9 +52,9 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                     </p>
                 </div>
 
-                <div class="flex flex-row items-center">
+                <div>
                     <span class="relative z-0 inline-flex rounded-md shadow-sm">
-                        <span class="{{ $paginator->onFirstPage() ? 'hidden' : '' }}">
+                        <span>
                             {{-- Previous Page Link --}}
                             @if ($paginator->onFirstPage())
                                 <span aria-disabled="true" aria-label="{{ __('pagination.previous') }}">
@@ -100,7 +100,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                             @endif
                         @endforeach
 
-                        <span class="{{ $paginator->hasMorePages() ? '' : 'hidden' }}">
+                        <span>
                             {{-- Next Page Link --}}
                             @if ($paginator->hasMorePages())
                                 <button type="button" wire:click="nextPage('{{ $paginator->getPageName() }}')" x-on:click="{{ $scrollIntoViewJsSnippet }}" dusk="nextPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}.after" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="{{ __('pagination.next') }}">
