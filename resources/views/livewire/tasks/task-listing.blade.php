@@ -120,32 +120,6 @@
         
 
         <div>
-            <div class="text-left">Next week</div>
-            <ul>
-                @forelse($nextWeekTasks as $task)
-                    <li class="bg-white rounded-lg shadow-md p-4 mb-2 flex justify-between items-center"
-                        x-data="{ completed: {{ $task['is_done'] ? 'true' : 'false' }} }">
-                        <div>
-                            <span class="font-semibold">{{ $task['title'] }}</span>
-                            <span class="ml-2 text-slate-600">{{ $task['group'] ?? '' }}</span>
-                            <br>
-                            <span class="text-sm text-gray-400">{{ $task['date'] }}</span>
-                            <p class="text-sm text-gray-500">{{ $task['description'] }}</p>
-                        </div>
-                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-500"
-                            x-model="completed"
-                            x-on:click="$wire.toggleTaskStatus({{ $task['id'] }})">
-                    </li>
-                @empty
-                    <li class="bg-white rounded-lg shadow-md p-4 mb-2">
-                        <p class="text-gray-500">No tasks for next week</p>
-                    </li>
-                @endforelse
-            </ul>
-        </div>
-        
-
-        <div>
             <div class="text-left">Near future</div>
             <ul>
                 @forelse($nearFutureTasks as $task)
