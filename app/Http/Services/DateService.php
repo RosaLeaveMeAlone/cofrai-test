@@ -31,10 +31,10 @@ class DateService
     public static function getDatesFromIteration($cronString, $iterations)
     {
         $cron = new CronExpression($cronString);
-        $nextRunDate = Carbon::now();
+        $nextRunDate = Carbon::now()->subDay();
         $dates = [];
         
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < $iterations; $i++) {
             $nextRunDate = $cron->getNextRunDate($nextRunDate, 0, true);
             $nextRunDateCarbon = Carbon::parse($nextRunDate->format('Y-m-d'));
             $dates[] = $nextRunDate->format('Y-m-d');

@@ -46,6 +46,7 @@
                 <a href="{{ route('admin.dashboard') }}" class="text-gray-700">Dashboard</a>
                 <a href="{{ route('admin.task-groups') }}" class="text-gray-700">Task Groups</a>
                 <a href="{{ route('admin.tasks') }}" class="text-gray-700">Tasks</a>
+                <a href="{{ route('admin.task-listing') }}" class="text-gray-700">Task Listing</a>
             </div>
         </div>
         <!-- Main Content -->
@@ -55,5 +56,6 @@
         </div>
     </div>
     @livewire('wire-elements-modal')
+    @stack('scripts')
 </body>
 </html>

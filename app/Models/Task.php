@@ -28,6 +28,12 @@ class Task extends Model
     // -----------------------------------------------------------------------------------------------------------------
     // @ Relations
     // -----------------------------------------------------------------------------------------------------------------
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function taskGroup()
     {
         return $this->belongsTo(TaskGroup::class);
@@ -52,6 +58,7 @@ class Task extends Model
         } else {
             $dates = DateService::getDatesFromDateRange($this->frequency, $this->start_date, $this->end_date);
         }
+
         foreach ($dates as $date) {
             $this->generatedTasks()->create([
                 'date' => $date,
