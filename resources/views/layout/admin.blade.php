@@ -18,7 +18,6 @@
         <!-- Logo -->
         <div class="flex items-center">
             <img class="mx-auto h-10 w-auto" src="https://blade-ui-kit.com/images/livewire.svg" alt="Livewire Logo">
-            <span class="text-lg font-semibold">Nombre de la Aplicación</span>
         </div>
         <!-- Dropdown -->
         <div class="relative" x-data="{ 
